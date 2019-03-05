@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
 {
     [Header("Options")]
-    [Range(0f, 2f)] public float handleLimit = 1f;
+    [Range(0f, 2f)] public float handleLimit = 2f;
     public JoystickMode joystickMode = JoystickMode.AllAxis;
 
     protected Vector2 inputVector = Vector2.zero;
