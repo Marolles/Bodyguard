@@ -11,8 +11,6 @@ public class EnemySpawner : MonoBehaviour
     [Space(20)]
     [Header("Settings")]
 
-    [Range(0f,1f)]
-    public float spawnRate;
 
 
     private float cd;
@@ -28,7 +26,7 @@ public class EnemySpawner : MonoBehaviour
         {
             pool.Add(t.gameObject);
         }
-        cd = 3;
+        cd = Random.Range(GameManager.i.enemyspawnRate * 0.8f, GameManager.i.enemyspawnRate * 1.2f);
     }
 
     public void ToggleSpawn(bool b)
@@ -64,7 +62,8 @@ public class EnemySpawner : MonoBehaviour
             cd -= Time.deltaTime;
         } else
         {
-            cd = spawnRate * 3;
+            cd = Random.Range(GameManager.i.enemyspawnRate*0.8f, GameManager.i.enemyspawnRate * 1.2f);
+            Debug.Log(cd);
             SpawnEnemy();
         }
     }

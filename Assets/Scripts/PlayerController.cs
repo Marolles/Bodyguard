@@ -9,6 +9,12 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 8f;
     public float timeToRun = 2f;
 
+    public float comboTime = 3f;
+    public int comboForExplosion = 3;
+
+    public float explosionRadius = 10;
+    public float explosionForce = 1000;
+
     [Space(10)]
     public float rotationSpeed;
 
@@ -36,6 +42,9 @@ public class PlayerController : MonoBehaviour
     private ParticleSystem.EmissionModule footStepEmissionModule;
     private float sprintCD = 0;
     private float actualSpeed;
+
+    public int comboCount;
+    private float comboCD;
 
     private void Start()
     {
@@ -85,6 +94,58 @@ public class PlayerController : MonoBehaviour
         }
         footStepEmissionModule.rateOverTimeMultiplier = Mathf.Clamp(actualSpeed * maxFootstepParticles, 0, maxFootstepParticles);
         animator.SetFloat("runSpeed", actualSpeed);
+    }
+
+    public void ResetPlayer()
+    {
+        ResetCombo();
+    }
+
+    public void AddCombo()
+    {
+        comboCount++;
+        comboCD = comboTime;
+        if (comboCount == comboForExplosion)
+        {
+            Explosion();
+            ResetCombo();
+        }
+    }
+
+    void ResetCombo()
+    {
+        comboCD = 0;
+        comboCount = 0;
+    }
+
+    public void Explosion()
+    {
+        Vector3 explosionPos = transform.position;
+        Collider[] colliders = Physics.OverlapSphere(explosionPos, explosionRadius);
+        foreach (Collider hit in colliders)
+        {
+            Rigidbody rbFound = hit.GetComponent<Rigidbody>();
+
+            if (rbFound != null && rbFound != rb && rbFound != GameManager.i.starBehaviour.starCollider.rb)
+            {
+                rbFound.AddExplosionForce(explosionForce, explosionPos, explosionRadius, 3.0F);
+                EnemyBehaviour potentialEnemy = rbFound.gameObject.GetComponent<EnemyBehaviour>();
+                if (potentialEnemy != null)
+                {
+                    potentialEnemy.Kill();
+                }
+            }
+        }
+        GameManager.i.starBehaviour.GenerateEmoji(GameManager.i.starBehaviour.emojiLove);
+    }
+
+    private void UpdateComboCD()
+    {
+        if (comboCD >0)
+        {
+            comboCD -= Time.deltaTime;
+            comboCount = 0;
+        }
     }
 
     public void ShowHighlightCircle()

@@ -28,6 +28,10 @@ public class EnemyBehaviour : MonoBehaviour
         if (target != null && alive)
         {
             transform.position = Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime * moveSpeed);
+            if (transform.position.y < -1000)
+            {
+                ForceKill();
+            }
         }
     }
 
@@ -44,6 +48,7 @@ public class EnemyBehaviour : MonoBehaviour
     public void Kill()
     {
         //Add score too
+        GameManager.i.playerController.AddCombo();
         ForceKill();
         linkedSpawner.AddToPool(this.transform.parent.gameObject);
     }

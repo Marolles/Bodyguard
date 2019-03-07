@@ -15,6 +15,7 @@ public class StarBehaviour : MonoBehaviour
     private GameObject positionIndicatorArrow;
     public float angle;
     private GameObject visuals;
+    private Animator animator;
 
     [Header("Emojis")]
     public GameObject emojiPrefab;
@@ -36,13 +37,16 @@ public class StarBehaviour : MonoBehaviour
     private bool isEnabled;
 
     private StarPoint actualStarPoint;
+    public StarCollider starCollider;
 
     private void Start()
     {
         visuals = transform.Find("Visuals").gameObject;
+        starCollider = visuals.GetComponent<StarCollider>();
         activeEmoji = new List<GameObject>();
         camera = Camera.main;
         positionIndicatorArrow = positionIndicator.transform.Find("Arrow").gameObject;
+        animator = visuals.GetComponent<Animator>();
     }
 
     public void ToggleStar(bool b)
@@ -54,9 +58,12 @@ public class StarBehaviour : MonoBehaviour
     void ResetStar()
     {
         lastPositionOnViewport = Vector3.zero;
+        animator.SetBool("talking", false);
         actualStarPoint = null;
         talking = false;
         talkingCD = 0;
+        visuals.transform.position = transform.position;
+        visuals.transform.rotation = Quaternion.identity;
     }
 
     private void Update()
@@ -97,14 +104,18 @@ public class StarBehaviour : MonoBehaviour
         movement = new Vector3(0, 0, 0.01f * moveSpeed);
         transform.position += movement;
         visuals.transform.position = Vector3.Lerp(visuals.transform.position, transform.position, Time.deltaTime * moveSpeed * 0.1f);
+        visuals.transform.rotation = Quaternion.Lerp(visuals.transform.rotation, Quaternion.identity, Time.deltaTime);
     }
 
     void PointMovement()
     {
         movement = new Vector3(0, 0, 0);
-        if (Vector3.Distance(visuals.transform.position, actualStarPoint.transform.position) > 1f)
+        if (Vector3.Distance(visuals.transform.position, actualStarPoint.transform.position) > 1.5f)
         {
-            visuals.transform.position = Vector3.MoveTowards(visuals.transform.position, actualStarPoint.transform.position, Time.deltaTime * moveSpeed * 0.4f);
+            Vector3 pointPosition = actualStarPoint.transform.position;
+            pointPosition.y = visuals.transform.position.y;
+            visuals.transform.position = Vector3.MoveTowards(visuals.transform.position, pointPosition, Time.deltaTime * moveSpeed * 0.4f);
+            visuals.transform.LookAt(pointPosition);
         } else
         {
             actualStarPoint = null;
@@ -116,24 +127,35 @@ public class StarBehaviour : MonoBehaviour
     {
         if (talkingCD > 0)
         {
+            animator.SetBool("talking", true);
             talkingCD -= Time.deltaTime;
         } else
         {
             talkingCD = 0;
+            animator.SetBool("talking", false);
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void TriggerEntered(Collider other)
     {
         StarPoint potentialStarpoint = other.GetComponent<StarPoint>();
         if (potentialStarpoint != null)
         {
             actualStarPoint = potentialStarpoint;
         }
-        EnemyBehaviour potentialEnemy = other.GetComponent<EnemyBehaviour>();
-        if (other.tag == "Enemy" && potentialEnemy != null && potentialEnemy.alive)
+        if (other.tag == "FinishLine")
         {
-            GameManager.i.StopGame();
+            GameManager.i.WinGame();
+        }
+    }
+
+    public void CollisionEntered(Collision other)
+    {
+        EnemyBehaviour potentialEnemy = other.gameObject.GetComponent<EnemyBehaviour>();
+        Debug.Log(other);
+        if (other.gameObject.tag == "Enemy" && potentialEnemy != null && potentialEnemy.alive)
+        {
+            GameManager.i.LoseGame();
         }
     }
 
@@ -154,7 +176,7 @@ public class StarBehaviour : MonoBehaviour
         }
     }
 
-    void GenerateEmoji(Sprite sprite)
+    public void GenerateEmoji(Sprite sprite)
     {
         GameObject newEmoji = Instantiate(emojiPrefab, GameManager.i.canvas.transform);
         newEmoji.transform.Find("Visuals").GetComponent<Image>().sprite = sprite;
