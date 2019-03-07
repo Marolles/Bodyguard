@@ -1,0 +1,322 @@
+fileFormatVersion: 2
+guid: 79ebaf73eb96ed44cb1528656b5b0b34
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Bag
+    100002: Bag 1
+    100004: Body
+    100006: Bone002
+    100008: Bone003
+    100010: Bone005
+    100012: Bone006
+    100014: Bone008
+    100016: Bone009
+    100018: Bone011
+    100020: Bone012
+    100022: Bone014
+    100024: Bone015
+    100026: Head
+    100028: Head 1
+    100030: //RootNode
+    100032: Larm
+    100034: Legs
+    100036: Master
+    100038: Neck
+    100040: Neck 1
+    100042: Pelvis
+    100044: Pelvis 1
+    100046: Rarm
+    100048: RThigh
+    100050: RThigh 1
+    400000: Bag
+    400002: Bag 1
+    400004: Body
+    400006: Bone002
+    400008: Bone003
+    400010: Bone005
+    400012: Bone006
+    400014: Bone008
+    400016: Bone009
+    400018: Bone011
+    400020: Bone012
+    400022: Bone014
+    400024: Bone015
+    400026: Head
+    400028: Head 1
+    400030: //RootNode
+    400032: Larm
+    400034: Legs
+    400036: Master
+    400038: Neck
+    400040: Neck 1
+    400042: Pelvis
+    400044: Pelvis 1
+    400046: Rarm
+    400048: RThigh
+    400050: RThigh 1
+    2100000: 'Material #25'
+    2300000: Bag 1
+    2300002: Head 1
+    3300000: Bag 1
+    3300002: Head 1
+    4300000: Legs
+    4300002: Body
+    4300004: Head
+    4300006: Bag
+    7400000: Run
+    9500000: //RootNode
+    13700000: Body
+    13700002: Legs
+    2186277476908879412: ImportLogs
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 'Material #25'
+    second: {fileID: 2100000, guid: c458e145e39e7784e8c211a0f5aba936, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Run
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 20
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 2
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton:
+    - name: KM_Paparazzi(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Legs
+      parentName: KM_Paparazzi(Clone)
+      position: {x: 0.003811264, y: 0, z: 0}
+      rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+      scale: {x: 0.41785058, y: 0.41785058, z: 0.41785058}
+    - name: Body
+      parentName: KM_Paparazzi(Clone)
+      position: {x: 0.003811264, y: 0, z: 0}
+      rotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+      scale: {x: 0.34451962, y: 0.43717754, z: 0.34451962}
+    - name: Master
+      parentName: KM_Paparazzi(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pelvis
+      parentName: Master
+      position: {x: 0.005750055, y: -0.026025914, z: 0.20989172}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Neck
+      parentName: Pelvis
+      position: {x: 0.000000019073486, y: -0.028148679, z: 0.064560585}
+      rotation: {x: 0, y: -0, z: -0.25881907, w: 0.9659259}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Neck 1
+      parentName: Neck
+      position: {x: -0, y: 0.000000014305114, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Rarm
+      parentName: Neck 1
+      position: {x: 0.028776955, y: 0.0006424856, z: -0.001095848}
+      rotation: {x: 0.29386258, y: 0.6547926, z: -0.65226626, w: -0.24380346}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Bone005
+      parentName: Rarm
+      position: {x: -0.05722554, y: -0.000000114440915, z: -0.000000007152557}
+      rotation: {x: -0.0000061835067, y: 0.001994075, z: 0.00311026, w: 0.9999932}
+      scale: {x: 1, y: 0.99999994, z: 1.0000001}
+    - name: Bone006
+      parentName: Bone005
+      position: {x: -0.042345293, y: 0.000000019073486, z: -0.0000000047683715}
+      rotation: {x: -0.0000000018626458, y: -0.0000000066356733, z: -0.00000008568168,
+        w: 1}
+      scale: {x: 0.99999994, y: 1, z: 1}
+    - name: Larm
+      parentName: Neck 1
+      position: {x: -0.028720021, y: 0.0006424761, z: -0.001095848}
+      rotation: {x: -0.10299437, y: -0.4566049, z: 0.87466854, w: -0.12593284}
+      scale: {x: -0.9999999, y: -0.99999994, z: -0.99999994}
+    - name: Bone011
+      parentName: Larm
+      position: {x: -0.057225555, y: -0.000000095367426, z: -0.000000019073486}
+      rotation: {x: -0.2595432, y: 0.17990187, z: 0.7798113, w: 0.54052466}
+      scale: {x: 1, y: 1, z: 1.0000001}
+    - name: Bone012
+      parentName: Bone011
+      position: {x: -0.042345274, y: 0.000000019073486, z: -0.0000000047683715}
+      rotation: {x: 0.0000000018626446, y: -0.0000000037252903, z: -0.00000007450581,
+        w: 1}
+      scale: {x: 1, y: 1.0000001, z: 1.0000001}
+    - name: Head
+      parentName: Neck
+      position: {x: -0.005750074, y: 0.00064250943, z: 0.02717102}
+      rotation: {x: -0.0421331, y: -0.011289529, z: 0.2585728, w: 0.9650065}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Head 1
+      parentName: Head
+      position: {x: 0.003811264, y: 0, z: -0.31467056}
+      rotation: {x: 0.06162841, y: 0.0616284, z: -0.70441604, w: 0.70441604}
+      scale: {x: 0.7915835, y: 0.6229824, z: 0.6229824}
+    - name: Bag
+      parentName: Pelvis
+      position: {x: -0.045419358, y: -0.0014235108, z: 0.00081611634}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Bag 1
+      parentName: Bag
+      position: {x: -0.0058471486, y: -0.0011912757, z: 0.006222839}
+      rotation: {x: 0.39137653, y: -0.4164413, z: -0.58136225, w: 0.5791537}
+      scale: {x: 2.214753, y: 1.6095252, z: 1.6095256}
+    - name: Pelvis 1
+      parentName: Pelvis
+      position: {x: -5.9604643e-10, y: 0.0000000023841857, z: 0.007909164}
+      rotation: {x: 0.6009437, y: 0.6009416, z: -0.37264967, w: 0.37265012}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Bone008
+      parentName: Pelvis 1
+      position: {x: -0.024380513, y: 0.00000008404255, z: -0.0000000047683715}
+      rotation: {x: 6.0521016e-10, y: 0.000433147, z: -0.0000013971083, w: 0.99999994}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Bone009
+      parentName: Bone008
+      position: {x: -0.0327738, y: 0.000000019073486, z: 0}
+      rotation: {x: 4.973799e-14, y: -2.8272775e-27, z: -5.684342e-14, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: RThigh 1
+      parentName: Pelvis
+      position: {x: -0.02005368, y: 0.0025207542, z: -0.0039866827}
+      rotation: {x: -0.4450032, y: 0.44696552, z: 0.5463046, w: 0.5511309}
+      scale: {x: -1.0000001, y: -0.99999976, z: -1}
+    - name: Bone014
+      parentName: RThigh 1
+      position: {x: -0.10230875, y: 0.00000000834465, z: 0.0000000023841857}
+      rotation: {x: -0.00020911504, y: -0.5572281, z: -0.00030237195, w: 0.8303594}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Bone015
+      parentName: Bone014
+      position: {x: -0.098917596, y: -0.000000034570693, z: 0}
+      rotation: {x: 1.1641532e-10, y: -0.0000000074505815, z: 1.1641534e-10, w: 1}
+      scale: {x: 0.99999994, y: 1, z: 0.99999994}
+    - name: RThigh
+      parentName: Pelvis
+      position: {x: 0.016997186, y: 0.0025207542, z: -0.0039866827}
+      rotation: {x: 0.10891445, y: -0.10393459, z: 0.69794273, w: 0.70015085}
+      scale: {x: 1, y: 1, z: 1.0000001}
+    - name: Bone002
+      parentName: RThigh
+      position: {x: -0.10230878, y: 0.000000009536743, z: 0}
+      rotation: {x: -0.00026549713, y: -0.6691447, z: -0.0002927313, w: 0.74313205}
+      scale: {x: 0.99999994, y: 0.99999994, z: 0.9999999}
+    - name: Bone003
+      parentName: Bone002
+      position: {x: -0.09891758, y: -0.0000000333786, z: 0}
+      rotation: {x: 1.1641532e-10, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
