@@ -7,6 +7,7 @@ public class EnemyBehaviour : MonoBehaviour
     [Header("Settings")]
     public float moveSpeed;
     public GameObject target;
+    public EnemyType enemyType;
 
     [HideInInspector]
     public Rigidbody rb;
@@ -26,7 +27,7 @@ public class EnemyBehaviour : MonoBehaviour
         cd = GetComponent<Collider>();
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
-        GetBodyPositions(); 
+        GetBodyPositions();
     }
 
     private void Update()
@@ -50,7 +51,7 @@ public class EnemyBehaviour : MonoBehaviour
         {
             Kill();
             rb.AddForce(new Vector3(0, 5000, 0));
-            ragdollrb.AddForce(new Vector3(playerFound.moveVector.x * 5000, 0, playerFound.moveVector.z  *5000));
+            rb.AddForce(new Vector3(playerFound.moveVector.x * 10000, 2000, playerFound.moveVector.z  *10000));
             GameObject hitParticle = Instantiate(GameManager.i.playerController.hitFXPrefab);
             Vector3 hitPosition = collision.transform.position;
             hitPosition.y = transform.position.y;
@@ -81,8 +82,16 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void Kill()
     {
-        //Add score too
         GameManager.i.playerController.AddCombo();
+        switch (enemyType)
+        {
+            case EnemyType.interviewer:
+                GameManager.i.interviewerKilled++;
+                break;
+            case EnemyType.paparazzi:
+                GameManager.i.paparazziKilled++;
+                break;
+        }
         ForceKill();
         AddToPool(this.transform.parent.gameObject);
         SetRagdoll();
@@ -138,15 +147,19 @@ public class EnemyBehaviour : MonoBehaviour
     public void PreSpawn()
     {
         UnsetRagdoll();
+        target = null;
+        rb.velocity = Vector3.zero;
+        transform.rotation = Quaternion.identity;
+        rb.isKinematic = true;
+        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
     }
 
     public void Spawn()
     {
+        target = GameManager.i.starBehaviour.visuals;
         rb.isKinematic = false;
-        rb.velocity = Vector3.zero;
         transform.rotation = Quaternion.identity;
         alive = true;
-        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         UnsetRagdoll();
     }
 }

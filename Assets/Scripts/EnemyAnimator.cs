@@ -40,7 +40,6 @@ public class EnemyAnimator : MonoBehaviour
 
     IEnumerable Spawn_C()
     {
-        yield return new WaitForSeconds(Random.Range(0,1));
         Spawn();
         yield return null;
     }

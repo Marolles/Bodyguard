@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EnemyType { paparazzi, interviewer }
 public class EnemySpawner : MonoBehaviour
 {
     [Header("References")]
@@ -10,7 +11,6 @@ public class EnemySpawner : MonoBehaviour
 
     [Space(20)]
     [Header("Settings")]
-
 
 
     public float cd;

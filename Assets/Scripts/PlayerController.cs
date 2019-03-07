@@ -18,7 +18,6 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 defaultPosition;
 
-
     [Space(10)]
     public float rotationSpeed;
 
@@ -49,6 +48,7 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
 
     public Vector3 moveVector;
+    public bool canMove;
 
     [HideInInspector]
     public Rigidbody rb;
@@ -85,7 +85,10 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        moveVector = (Vector3.right * joystick.Horizontal + Vector3.forward * joystick.Vertical);
+        if (canMove)
+        {
+            moveVector = (Vector3.right * joystick.Horizontal + Vector3.forward * joystick.Vertical);
+        }
         UpdateComboCD();
         if (moveVector != Vector3.zero)
         {

@@ -14,7 +14,8 @@ public class StarBehaviour : MonoBehaviour
     public GameObject positionIndicator;
     private GameObject positionIndicatorArrow;
     public float angle;
-    private GameObject visuals;
+    [HideInInspector]
+    public GameObject visuals;
     private Animator animator;
     private Vector3 defaultPos;
 

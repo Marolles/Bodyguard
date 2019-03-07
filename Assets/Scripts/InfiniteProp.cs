@@ -5,6 +5,7 @@ using UnityEngine;
 public class InfiniteProp : MonoBehaviour
 {
     public Vector3 forwardVector;
+    public float percentChances = 100;
     float propAmount;
     public float maxRange;
     List<GameObject> propList;

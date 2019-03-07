@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     public GameObject menuPanel;
     public Slider progressionSlider;
     public GameObject progressionUI;
+    public int paparazziKilled;
+    public int interviewerKilled;
     [HideInInspector] public FinishlineGenerator finishLineGenerator;
 
     [Range(100,2000)]
@@ -36,12 +38,19 @@ public class GameManager : MonoBehaviour
         starBehaviour = FindObjectOfType<StarBehaviour>();
         enemySpawner = FindObjectOfType<EnemySpawner>();
         finishLineGenerator = FindObjectOfType<FinishlineGenerator>();
+        playerController.canMove = false;
         OpenMenu();
     }
 
     private void Update()
     {
         UpdateProgression();
+    }
+
+    void ResetScore()
+    {
+        paparazziKilled = 0;
+        interviewerKilled = 0;
     }
 
     void UpdateProgression()
@@ -52,6 +61,7 @@ public class GameManager : MonoBehaviour
     public void WinGame()
     {
         winPanel.SetActive(true);
+        winPanel.GetComponent<WinPanelScript>().AnimatePanel();
         StopGame();
     }
 
@@ -77,12 +87,15 @@ public class GameManager : MonoBehaviour
 
     public void StopGame()
     {
+        playerController.canMove = false;
         enemySpawner.ToggleSpawn(false);
         starBehaviour.ToggleStar(false);
     }
 
     public void StartGame()
     {
+        ResetScore();
+        playerController.canMove = true;
         cameraController.target = playerController.gameObject;
         winPanel.SetActive(false);
         gameOverPanel.SetActive(false);
