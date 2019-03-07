@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public EnemySpawner enemySpawner;
     public GameObject gameOverPanel;
     public GameObject winPanel;
+    public GameObject menuPanel;
+    public Slider progressionSlider;
+    public GameObject progressionUI;
     [HideInInspector] public FinishlineGenerator finishLineGenerator;
 
     [Range(100,2000)]
@@ -19,6 +23,8 @@ public class GameManager : MonoBehaviour
 
     [Range(0,10)]
     public float enemyspawnRate;
+
+    public float timeBeforeFirstEnemy = 3f;
 
 
     private void Start()
@@ -30,8 +36,17 @@ public class GameManager : MonoBehaviour
         starBehaviour = FindObjectOfType<StarBehaviour>();
         enemySpawner = FindObjectOfType<EnemySpawner>();
         finishLineGenerator = FindObjectOfType<FinishlineGenerator>();
+        OpenMenu();
+    }
 
-        StartGame();
+    private void Update()
+    {
+        UpdateProgression();
+    }
+
+    void UpdateProgression()
+    {
+        progressionSlider.value = starBehaviour.transform.position.z / carpetLength;
     }
 
     public void WinGame()
@@ -46,6 +61,20 @@ public class GameManager : MonoBehaviour
         StopGame();
     }
 
+    public void OpenMenu()
+    {
+        menuPanel.SetActive(true);
+        progressionUI.SetActive(false);
+        cameraController.target = starBehaviour.gameObject;
+        cameraController.GetComponent<Animator>().SetTrigger("reset");
+    }
+    
+    public void CloseMenu()
+    {
+        menuPanel.SetActive(false);
+        cameraController.GetComponent<Animator>().SetTrigger("start");
+    }
+
     public void StopGame()
     {
         enemySpawner.ToggleSpawn(false);
@@ -54,13 +83,14 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        cameraController.target = playerController.gameObject;
         winPanel.SetActive(false);
         gameOverPanel.SetActive(false);
         enemySpawner.ToggleSpawn(true);
+        starBehaviour.ToggleStar(false);
         starBehaviour.ToggleStar(true);
-        starBehaviour.transform.position = new Vector3(0, 1, 0);
-        playerController.transform.position = new Vector3(0, 1, -5);
         playerController.ResetPlayer();
         finishLineGenerator.GenerateLine();
+        progressionUI.SetActive(true);
     }
 }
