@@ -63,7 +63,6 @@ public class EnemySpawner : MonoBehaviour
         } else
         {
             cd = Random.Range(GameManager.i.enemyspawnRate*0.8f, GameManager.i.enemyspawnRate * 1.2f);
-            Debug.Log(cd);
             SpawnEnemy();
         }
     }

@@ -42,6 +42,10 @@ public class EnemyBehaviour : MonoBehaviour
         {
             Kill();
             rb.AddForce(new Vector3(playerFound.rb.velocity.x * 3000, 15000, playerFound.rb.velocity.z  *3000));
+            GameObject hitParticle = Instantiate(GameManager.i.playerController.hitFXPrefab);
+            Vector3 hitPosition = collision.transform.position;
+            hitPosition.y = transform.position.y;
+            hitParticle.transform.position = hitPosition;
         }
     }
 

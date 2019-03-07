@@ -11,9 +11,11 @@ public class PlayerController : MonoBehaviour
 
     public float comboTime = 3f;
     public int comboForExplosion = 3;
+    public int maxCombo = 3;
 
     public float explosionRadius = 10;
     public float explosionForce = 1000;
+
 
     [Space(10)]
     public float rotationSpeed;
@@ -24,15 +26,24 @@ public class PlayerController : MonoBehaviour
     [Space(10)]
     public float maxAnimatorSpeed;
 
+    [Space(10)]
+    public float minPowerFXEmission;
+    public float maxPowerFXEmission;
+
 
     [Space(5)]
     [Header("References")]
+    public GameObject explosionFXPrefab;
+
+    public GameObject hitFXPrefab;
     public Joystick joystick;
 
     public GameObject highlightCircle;
     public GameObject highlightArrow;
 
     public ParticleSystem footstepFX;
+    public ParticleSystem powerFX;
+
     public Animator animator;
 
     [HideInInspector]
@@ -40,6 +51,7 @@ public class PlayerController : MonoBehaviour
     private StarBehaviour star;
     private WalkableArea walkableArea;
     private ParticleSystem.EmissionModule footStepEmissionModule;
+    private ParticleSystem.EmissionModule powerFXEmissionModule;
     private float sprintCD = 0;
     private float actualSpeed;
 
@@ -63,6 +75,7 @@ public class PlayerController : MonoBehaviour
         highlightCircle.SetActive(false);
 
         footStepEmissionModule = footstepFX.emission;
+        powerFXEmissionModule = powerFX.emission;
     }
 
     void Update()
@@ -110,12 +123,14 @@ public class PlayerController : MonoBehaviour
             Explosion();
             ResetCombo();
         }
+        powerFXEmissionModule.rateOverTimeMultiplier = Mathf.Lerp(minPowerFXEmission, maxPowerFXEmission, (float)comboCount / (float)maxCombo);
     }
 
     void ResetCombo()
     {
         comboCD = 0;
         comboCount = 0;
+        powerFXEmissionModule.rateOverTimeMultiplier = 0;
     }
 
     public void Explosion()
@@ -136,6 +151,8 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+        GameObject explosionFX = Instantiate(explosionFXPrefab);
+        explosionFX.transform.position = this.transform.position + new Vector3(0,1,0);
         GameManager.i.starBehaviour.GenerateEmoji(GameManager.i.starBehaviour.emojiLove);
     }
 

@@ -152,7 +152,6 @@ public class StarBehaviour : MonoBehaviour
     public void CollisionEntered(Collision other)
     {
         EnemyBehaviour potentialEnemy = other.gameObject.GetComponent<EnemyBehaviour>();
-        Debug.Log(other);
         if (other.gameObject.tag == "Enemy" && potentialEnemy != null && potentialEnemy.alive)
         {
             GameManager.i.LoseGame();
