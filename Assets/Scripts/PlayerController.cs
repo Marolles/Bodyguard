@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     public float explosionRadius = 10;
     public float explosionForce = 1000;
 
+    private Vector3 defaultPosition;
+
 
     [Space(10)]
     public float rotationSpeed;
@@ -46,6 +48,8 @@ public class PlayerController : MonoBehaviour
 
     public Animator animator;
 
+    public Vector3 moveVector;
+
     [HideInInspector]
     public Rigidbody rb;
     private StarBehaviour star;
@@ -60,6 +64,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        defaultPosition = transform.position;
         rb = GetComponent<Rigidbody>();
         walkableArea = FindObjectOfType<WalkableArea>();
         if (walkableArea == null)
@@ -80,8 +85,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        Vector3 moveVector = (Vector3.right * joystick.Horizontal + Vector3.forward * joystick.Vertical);
-
+        moveVector = (Vector3.right * joystick.Horizontal + Vector3.forward * joystick.Vertical);
+        UpdateComboCD();
         if (moveVector != Vector3.zero)
         {
             sprintCD += Time.deltaTime;
@@ -111,7 +116,9 @@ public class PlayerController : MonoBehaviour
 
     public void ResetPlayer()
     {
+        powerFXEmissionModule = powerFX.emission;
         ResetCombo();
+        transform.position = defaultPosition;
     }
 
     public void AddCombo()
@@ -128,9 +135,9 @@ public class PlayerController : MonoBehaviour
 
     void ResetCombo()
     {
+        powerFXEmissionModule.rateOverTimeMultiplier = 0;
         comboCD = 0;
         comboCount = 0;
-        powerFXEmissionModule.rateOverTimeMultiplier = 0;
     }
 
     public void Explosion()
@@ -143,7 +150,7 @@ public class PlayerController : MonoBehaviour
 
             if (rbFound != null && rbFound != rb && rbFound != GameManager.i.starBehaviour.starCollider.rb)
             {
-                rbFound.AddExplosionForce(explosionForce, explosionPos, explosionRadius, 3.0F);
+                rbFound.AddExplosionForce(explosionForce, explosionPos + new Vector3(0,-1,0), explosionRadius, 50f);
                 EnemyBehaviour potentialEnemy = rbFound.gameObject.GetComponent<EnemyBehaviour>();
                 if (potentialEnemy != null)
                 {
@@ -161,7 +168,9 @@ public class PlayerController : MonoBehaviour
         if (comboCD >0)
         {
             comboCD -= Time.deltaTime;
-            comboCount = 0;
+        } else
+        {
+            ResetCombo();
         }
     }
 

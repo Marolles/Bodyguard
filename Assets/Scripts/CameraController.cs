@@ -12,6 +12,7 @@ public class CameraController : MonoBehaviour
     public StarBehaviour star;
 
     public float maxDistance;
+    public bool inCinematic;
 
     public bool isSeen = false;
 
@@ -26,6 +27,7 @@ public class CameraController : MonoBehaviour
     private void Update()
     {
         if (target == null) { return; }
+        if (inCinematic) { return; }
 
         if (star.transform.position.z - this.transform.position.z < -maxDistance && target.transform.position.z > transform.position.z)
         {
@@ -47,6 +49,22 @@ public class CameraController : MonoBehaviour
             cameraMovement.y = transform.position.y;
             transform.position = cameraMovement;
         }
+    }
+
+    public void InCinematic()
+    {
+        inCinematic = true;
+    }
+    public void NotInCinematic()
+    {
+        inCinematic = false;
+    }
+
+    public void CenterCamera()
+    {
+        Vector3 centeredPosition = transform.position;
+        centeredPosition.x = 0;
+        transform.position = Vector3.Lerp(transform.position, centeredPosition, Time.deltaTime);
     }
 
     public bool IsSeenByCamera(GameObject obj)

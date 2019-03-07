@@ -13,7 +13,7 @@ public class EnemySpawner : MonoBehaviour
 
 
 
-    private float cd;
+    public float cd;
     private List<GameObject> instantiatedObjects;
     public List<GameObject> pool;
 
@@ -26,7 +26,7 @@ public class EnemySpawner : MonoBehaviour
         {
             pool.Add(t.gameObject);
         }
-        cd = Random.Range(GameManager.i.enemyspawnRate * 0.8f, GameManager.i.enemyspawnRate * 1.2f);
+        cd = GameManager.i.timeBeforeFirstEnemy;
     }
 
     public void ToggleSpawn(bool b)
@@ -40,6 +40,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void ResetEnemies()
     {
+        cd = GameManager.i.timeBeforeFirstEnemy;
         pool.Clear();
         foreach (EnemyAnimator enemyAnimator in FindObjectsOfType<EnemyAnimator>())
         {
@@ -78,6 +79,7 @@ public class EnemySpawner : MonoBehaviour
 
         EnemyAnimator enemyAnimator = spawnedObject.GetComponent<EnemyAnimator>();
         enemyAnimator.Spawn();
+        enemyAnimator.linkedEnemy.PreSpawn();
         enemyAnimator.LinkToSpawner(this);
     }
 }

@@ -32,7 +32,7 @@ public class InfiniteProp : MonoBehaviour
         }
 
         
-        if (Vector3.Distance(propList[0].transform.position, GameManager.i.playerController.transform.position) < maxRange)
+        if (Vector3.Distance(propList[0].transform.position, GameManager.i.playerController.transform.position) < maxRange && (propList[0].transform.position - forwardVector/2).z > 0)
         {
             GameObject newProp = Instantiate(referenceProp, this.transform);
             newProp.transform.position = propList[0].transform.position - forwardVector;

@@ -16,6 +16,7 @@ public class StarBehaviour : MonoBehaviour
     public float angle;
     private GameObject visuals;
     private Animator animator;
+    private Vector3 defaultPos;
 
     [Header("Emojis")]
     public GameObject emojiPrefab;
@@ -41,12 +42,14 @@ public class StarBehaviour : MonoBehaviour
 
     private void Start()
     {
+        defaultPos = transform.position;
         visuals = transform.Find("Visuals").gameObject;
         starCollider = visuals.GetComponent<StarCollider>();
         activeEmoji = new List<GameObject>();
         camera = Camera.main;
         positionIndicatorArrow = positionIndicator.transform.Find("Arrow").gameObject;
         animator = visuals.GetComponent<Animator>();
+        animator.speed = 0;
     }
 
     public void ToggleStar(bool b)
@@ -62,8 +65,10 @@ public class StarBehaviour : MonoBehaviour
         actualStarPoint = null;
         talking = false;
         talkingCD = 0;
+        transform.position = defaultPos;
         visuals.transform.position = transform.position;
         visuals.transform.rotation = Quaternion.identity;
+        animator.speed = 1;
     }
 
     private void Update()

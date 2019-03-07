@@ -10,9 +10,14 @@ public class EnemyBehaviour : MonoBehaviour
 
     [HideInInspector]
     public Rigidbody rb;
+    public Rigidbody ragdollrb;
     public bool alive = true;
     private Collider cd;
     public EnemySpawner linkedSpawner;
+
+    public GameObject[] bodyPartObjects;
+    public Vector3[] bodyPartDefaultPosition;
+    public Quaternion[] bodyPartDefaultRotation;
 
 
 
@@ -21,6 +26,7 @@ public class EnemyBehaviour : MonoBehaviour
         cd = GetComponent<Collider>();
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
+        GetBodyPositions(); 
     }
 
     private void Update()
@@ -28,9 +34,11 @@ public class EnemyBehaviour : MonoBehaviour
         if (target != null && alive)
         {
             transform.position = Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime * moveSpeed);
+            transform.LookAt(target.transform.position);
             if (transform.position.y < -1000)
             {
                 ForceKill();
+                AddToPool(this.transform.parent.gameObject);
             }
         }
     }
@@ -41,11 +49,33 @@ public class EnemyBehaviour : MonoBehaviour
         if (playerFound != null && alive)
         {
             Kill();
-            rb.AddForce(new Vector3(playerFound.rb.velocity.x * 3000, 15000, playerFound.rb.velocity.z  *3000));
+            rb.AddForce(new Vector3(0, 5000, 0));
+            ragdollrb.AddForce(new Vector3(playerFound.moveVector.x * 5000, 0, playerFound.moveVector.z  *5000));
             GameObject hitParticle = Instantiate(GameManager.i.playerController.hitFXPrefab);
             Vector3 hitPosition = collision.transform.position;
             hitPosition.y = transform.position.y;
             hitParticle.transform.position = hitPosition;
+        }
+    }
+
+    private void GetBodyPositions()
+    {
+        bodyPartDefaultPosition = new Vector3[bodyPartObjects.Length];
+        bodyPartDefaultRotation = new Quaternion[bodyPartObjects.Length];
+        for (int i = 0; i < bodyPartObjects.Length; i++)
+        {
+            bodyPartDefaultRotation[i] = bodyPartObjects[i].transform.localRotation;
+            bodyPartDefaultPosition[i] = bodyPartObjects[i].transform.localPosition;
+        }
+    }
+
+    private void ResetBodyPositions()
+    {
+        if (bodyPartObjects == null || bodyPartDefaultPosition == null || bodyPartDefaultRotation == null) { return; }
+        for (int i = 0; i < bodyPartObjects.Length; i++)
+        {
+            bodyPartObjects[i].transform.localPosition = bodyPartDefaultPosition[i];
+            bodyPartObjects[i].transform.localRotation = bodyPartDefaultRotation[i];
         }
     }
 
@@ -54,7 +84,8 @@ public class EnemyBehaviour : MonoBehaviour
         //Add score too
         GameManager.i.playerController.AddCombo();
         ForceKill();
-        linkedSpawner.AddToPool(this.transform.parent.gameObject);
+        AddToPool(this.transform.parent.gameObject);
+        SetRagdoll();
     }
 
     public void ForceKill()
@@ -66,6 +97,49 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
+    public void AddToPool(GameObject obj)
+    {
+        if (linkedSpawner != null)
+        {
+            linkedSpawner.AddToPool(obj);
+        }
+    }
+
+    void SetRagdoll()
+    {
+        List<Rigidbody> bodies = new List<Rigidbody>();
+        foreach (GameObject obj in bodyPartObjects)
+        {
+            obj.layer = LayerMask.NameToLayer("Ragdoll");
+            if (obj.GetComponent<Rigidbody>() != null)
+            {
+                obj.GetComponent<Rigidbody>().isKinematic = false;
+                obj.GetComponent<Rigidbody>().GetComponent<Collider>().enabled = true;
+            }
+        }
+        GetComponent<Collider>().enabled = false;
+    }
+
+    void UnsetRagdoll()
+    {
+        List<Rigidbody> bodies = new List<Rigidbody>();
+        foreach (GameObject obj in bodyPartObjects)
+        {
+            if (obj.GetComponent<Rigidbody>() != null)
+            {
+                obj.GetComponent<Rigidbody>().isKinematic = true;
+                obj.GetComponent<Rigidbody>().GetComponent<Collider>().enabled = false;
+            }
+        }
+        GetComponent<Collider>().enabled = true;
+        ResetBodyPositions();
+    }
+
+    public void PreSpawn()
+    {
+        UnsetRagdoll();
+    }
+
     public void Spawn()
     {
         rb.isKinematic = false;
@@ -73,5 +147,6 @@ public class EnemyBehaviour : MonoBehaviour
         transform.rotation = Quaternion.identity;
         alive = true;
         rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+        UnsetRagdoll();
     }
 }
