@@ -176,7 +176,6 @@ public class PlayerController : MonoBehaviour
 
     public void Explosion()
     {
-        Debug.Log("Explosion");
         Vector3 explosionPos = transform.position;
         Collider[] colliders = Physics.OverlapSphere(explosionPos, explosionRadius);
         foreach (Collider hit in colliders)
