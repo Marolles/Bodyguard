@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
     public GameObject highlightArrow;
 
     public ParticleSystem footstepFX;
-    public ParticleSystem powerFX;
+  //  public ParticleSystem powerFX;
 
     public Animator animator;
 
@@ -85,8 +85,8 @@ public class PlayerController : MonoBehaviour
         highlightCircle.SetActive(false);
 
         footStepEmissionModule = footstepFX.emission;
-        powerFXEmissionModule = powerFX.emission;
-        powerFXTrailModule = powerFX.trails;
+     //   powerFXEmissionModule = powerFX.emission;
+     //   powerFXTrailModule = powerFX.trails;
     }
 
     void Update()
@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour
             actualSpeed = 0;
             animator.SetFloat("runSpeed", actualSpeed);
             footStepEmissionModule.rateOverTimeMultiplier = 0;
-            powerFXEmissionModule.rateOverTimeMultiplier = 0;
+      //      powerFXEmissionModule.rateOverTimeMultiplier = 0;
             rb.isKinematic = true;
             return;
         } else
@@ -134,7 +134,7 @@ public class PlayerController : MonoBehaviour
 
     public void ResetPlayer()
     {
-        powerFXEmissionModule = powerFX.emission;
+     //   powerFXEmissionModule = powerFX.emission;
         ResetCombo();
         transform.position = defaultPosition;
     }
@@ -145,30 +145,29 @@ public class PlayerController : MonoBehaviour
         comboCD = comboTime;
         if (comboCount == 1)
         {
-            powerFXTrailModule.colorOverLifetime = powerFXColorDefault;
+       //     powerFXTrailModule.colorOverLifetime = powerFXColorDefault;
         }
         if (comboCount == 2)
         {
-            powerFXTrailModule.colorOverLifetime = powerFXColorMedian;
-        }
-        if (comboCount == comboForExplosion)
-        {
-            GameManager.i.emojiController.GenerateEmoji(this.transform, GameManager.i.emojiController.emojiAngry);
+      //      powerFXTrailModule.colorOverLifetime = powerFXColorMedian;
         }
         if (comboCount >= comboForExplosion)
         {
-            powerFXEmissionModule.rateOverTimeMultiplier = maxPowerFXEmission;
-            powerFXTrailModule.colorOverLifetime = powerFXColorAngry;
+            GameManager.i.emojiController.GenerateEmoji(this.transform, GameManager.i.emojiController.emojiMuscle);
+            GameManager.i.emojiController.GenerateEmoji(GameManager.i.starBehaviour.visuals.transform, GameManager.i.emojiController.emojiLove);
+
+       //     powerFXEmissionModule.rateOverTimeMultiplier = maxPowerFXEmission;
+      //      powerFXTrailModule.colorOverLifetime = powerFXColorAngry;
             Explosion();
         } else
         {
-            powerFXEmissionModule.rateOverTimeMultiplier = Mathf.Lerp(minPowerFXEmission, maxPowerFXEmission, (float)comboCount / (float)maxCombo / 2f);
+       //     powerFXEmissionModule.rateOverTimeMultiplier = Mathf.Lerp(minPowerFXEmission, maxPowerFXEmission, (float)comboCount / (float)maxCombo / 2f);
         }
     }
 
     void ResetCombo()
     {
-        powerFXEmissionModule.rateOverTimeMultiplier = 0;
+    //    powerFXEmissionModule.rateOverTimeMultiplier = 0;
         comboCD = 0;
         comboCount = 0;
     }

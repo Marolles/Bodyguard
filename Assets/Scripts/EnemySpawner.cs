@@ -71,8 +71,9 @@ public class EnemySpawner : MonoBehaviour
     void SpawnEnemy()
     {
         if (pool.Count <= 0) { return; }
-        GameObject spawnedObject = pool[Mathf.RoundToInt(Random.Range(0f,(float)pool.Count-1))];
-        pool.RemoveAt(0);
+        int poolIndex = Mathf.RoundToInt(Random.Range(0f, (float)pool.Count - 1));
+        GameObject spawnedObject = pool[poolIndex];
+        pool.RemoveAt(poolIndex);
         int spawnerIndex = Mathf.RoundToInt(Random.Range(0f, spawners.Count-1));
         spawnedObject.transform.position = spawners[spawnerIndex].transform.position;
         spawnedObject.transform.rotation = spawners[spawnerIndex].transform.rotation;

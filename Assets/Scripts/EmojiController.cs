@@ -8,6 +8,9 @@ public class EmojiController : MonoBehaviour
     public Sprite emojiFear;
     public Sprite emojiLove;
     public Sprite emojiAngry;
+    public Sprite emojiKiss;
+    public Sprite emojiMuscle;
+    public Sprite emojiCry;
 
     public GameObject emojiPrefab;
 
@@ -32,6 +35,7 @@ public class EmojiController : MonoBehaviour
     public void GenerateEmoji(Transform parent, Sprite sprite)
     {
         GameObject newEmoji = Instantiate(emojiPrefab, GameManager.i.canvas.transform);
+        newEmoji.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
         newEmoji.transform.Find("Visuals").GetComponent<Image>().sprite = sprite;
         activeEmojis.Add(newEmoji, parent);
     }

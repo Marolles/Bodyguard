@@ -32,6 +32,8 @@ public class StarBehaviour : MonoBehaviour
     private StarPoint actualStarPoint;
     public StarCollider starCollider;
 
+    private bool kissedPublic = false;
+
     private void Start()
     {
         defaultPos = transform.position;
@@ -100,6 +102,11 @@ public class StarBehaviour : MonoBehaviour
             visuals.transform.LookAt(pointPosition);
         } else
         {
+            if (kissedPublic == false)
+            {
+                GameManager.i.emojiController.GenerateEmoji(visuals.transform, GameManager.i.emojiController.emojiKiss);
+                kissedPublic = true;
+            }
             actualStarPoint = null;
             talkingCD = Random.Range(minTalkTime, maxTalkTime);
         }
@@ -124,6 +131,7 @@ public class StarBehaviour : MonoBehaviour
         if (potentialStarpoint != null)
         {
             actualStarPoint = potentialStarpoint;
+            kissedPublic = false;
         }
         if (other.tag == "FinishLine")
         {
