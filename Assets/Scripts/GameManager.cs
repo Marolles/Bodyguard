@@ -92,10 +92,12 @@ public class GameManager : MonoBehaviour
         playerController.canMove = false;
         enemySpawner.ToggleSpawn(false);
         starBehaviour.ToggleStar(false);
+        cameraController.InCinematic();
     }
 
     public void StartGame()
     {
+        cameraController.NotInCinematic();
         ResetScore();
         playerController.canMove = true;
         cameraController.target = playerController.gameObject;
