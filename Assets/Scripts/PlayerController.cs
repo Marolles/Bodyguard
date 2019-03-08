@@ -16,6 +16,10 @@ public class PlayerController : MonoBehaviour
     public float explosionRadius = 10;
     public float explosionForce = 1000;
 
+    public Color powerFXColorDefault;
+    public Color powerFXColorAngry;
+    public Color powerFXColorMedian;
+
     private Vector3 defaultPosition;
 
     [Space(10)]
@@ -56,6 +60,7 @@ public class PlayerController : MonoBehaviour
     private WalkableArea walkableArea;
     private ParticleSystem.EmissionModule footStepEmissionModule;
     private ParticleSystem.EmissionModule powerFXEmissionModule;
+    private ParticleSystem.TrailModule powerFXTrailModule;
     private float sprintCD = 0;
     private float actualSpeed;
 
@@ -81,14 +86,24 @@ public class PlayerController : MonoBehaviour
 
         footStepEmissionModule = footstepFX.emission;
         powerFXEmissionModule = powerFX.emission;
+        powerFXTrailModule = powerFX.trails;
     }
 
     void Update()
     {
-        if (canMove)
+        if (!canMove) {
+            moveVector = Vector3.zero;
+            actualSpeed = 0;
+            animator.SetFloat("runSpeed", actualSpeed);
+            footStepEmissionModule.rateOverTimeMultiplier = 0;
+            powerFXEmissionModule.rateOverTimeMultiplier = 0;
+            rb.isKinematic = true;
+            return;
+        } else
         {
-            moveVector = (Vector3.right * joystick.Horizontal + Vector3.forward * joystick.Vertical);
+            rb.isKinematic = false;
         }
+        moveVector = (Vector3.right * joystick.Horizontal + Vector3.forward * joystick.Vertical);
         UpdateComboCD();
         if (moveVector != Vector3.zero)
         {
@@ -128,12 +143,27 @@ public class PlayerController : MonoBehaviour
     {
         comboCount++;
         comboCD = comboTime;
+        if (comboCount == 1)
+        {
+            powerFXTrailModule.colorOverLifetime = powerFXColorDefault;
+        }
+        if (comboCount == 2)
+        {
+            powerFXTrailModule.colorOverLifetime = powerFXColorMedian;
+        }
         if (comboCount == comboForExplosion)
         {
-            Explosion();
-            ResetCombo();
+            GameManager.i.emojiController.GenerateEmoji(this.transform, GameManager.i.emojiController.emojiAngry);
         }
-        powerFXEmissionModule.rateOverTimeMultiplier = Mathf.Lerp(minPowerFXEmission, maxPowerFXEmission, (float)comboCount / (float)maxCombo);
+        if (comboCount >= comboForExplosion)
+        {
+            powerFXEmissionModule.rateOverTimeMultiplier = maxPowerFXEmission;
+            powerFXTrailModule.colorOverLifetime = powerFXColorAngry;
+            Explosion();
+        } else
+        {
+            powerFXEmissionModule.rateOverTimeMultiplier = Mathf.Lerp(minPowerFXEmission, maxPowerFXEmission, (float)comboCount / (float)maxCombo / 2f);
+        }
     }
 
     void ResetCombo()
@@ -143,27 +173,33 @@ public class PlayerController : MonoBehaviour
         comboCount = 0;
     }
 
+
+
     public void Explosion()
     {
+        Debug.Log("Explosion");
         Vector3 explosionPos = transform.position;
         Collider[] colliders = Physics.OverlapSphere(explosionPos, explosionRadius);
         foreach (Collider hit in colliders)
         {
-            Rigidbody rbFound = hit.GetComponent<Rigidbody>();
-
-            if (rbFound != null && rbFound != rb && rbFound != GameManager.i.starBehaviour.starCollider.rb)
+            if (hit.tag == "Enemy")
             {
-                rbFound.AddExplosionForce(explosionForce, explosionPos + new Vector3(0,-1,0), explosionRadius, 50f);
-                EnemyBehaviour potentialEnemy = rbFound.gameObject.GetComponent<EnemyBehaviour>();
-                if (potentialEnemy != null)
+                Rigidbody rbFound = hit.GetComponent<Rigidbody>();
+                if (rbFound != null && rbFound != rb && rbFound != GameManager.i.starBehaviour.starCollider.rb)
                 {
-                    potentialEnemy.Kill();
+                    rbFound.AddExplosionForce(explosionForce, explosionPos + new Vector3(0, -1, 0), explosionRadius, 50f);
+                    EnemyBehaviour potentialEnemy = rbFound.gameObject.GetComponent<EnemyBehaviour>();
+                    if (potentialEnemy != null)
+                    {
+                        potentialEnemy.Kill();
+                    }
                 }
             }
         }
         GameObject explosionFX = Instantiate(explosionFXPrefab);
         explosionFX.transform.position = this.transform.position + new Vector3(0,1,0);
-        GameManager.i.starBehaviour.GenerateEmoji(GameManager.i.starBehaviour.emojiLove);
+        GameManager.i.emojiController.GenerateEmoji(GameManager.i.starBehaviour.visuals.transform, GameManager.i.emojiController.emojiLove);
+        
     }
 
     private void UpdateComboCD()

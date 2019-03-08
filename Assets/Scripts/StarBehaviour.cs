@@ -19,20 +19,11 @@ public class StarBehaviour : MonoBehaviour
     private Animator animator;
     private Vector3 defaultPos;
 
-    [Header("Emojis")]
-    public GameObject emojiPrefab;
-
-    [Space(10)]
-    public Sprite emojiLove;
-    public Sprite emojiFear;
-    public Sprite emojiLike;
-
     public Vector3 movement;
     private Camera camera;
     private Vector3 lastPositionOnViewport;
     private float indicatorBounds;
     private Vector2 screenSize;
-    private List<GameObject> activeEmoji;
     private bool talking;
     private float talkingCD;
 
@@ -46,7 +37,6 @@ public class StarBehaviour : MonoBehaviour
         defaultPos = transform.position;
         visuals = transform.Find("Visuals").gameObject;
         starCollider = visuals.GetComponent<StarCollider>();
-        activeEmoji = new List<GameObject>();
         camera = Camera.main;
         positionIndicatorArrow = positionIndicator.transform.Find("Arrow").gameObject;
         animator = visuals.GetComponent<Animator>();
@@ -56,7 +46,7 @@ public class StarBehaviour : MonoBehaviour
     public void ToggleStar(bool b)
     {
         isEnabled = b;
-        if (b == false) { ResetStar(); }
+        if (b == true) { ResetStar(); }
     }
 
     void ResetStar()
@@ -87,20 +77,6 @@ public class StarBehaviour : MonoBehaviour
         indicatorBounds = positionIndicator.GetComponent<RectTransform>().sizeDelta.x / 2;
         screenSize.x = Screen.width;
         screenSize.y = Screen.height;
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            GenerateEmoji(emojiLove);
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            GenerateEmoji(emojiFear);
-        }
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            GenerateEmoji(emojiLike);
-        }
-        UpdateEmojiPosition();
         UpdateTalkingCD();
     }
 
@@ -162,30 +138,6 @@ public class StarBehaviour : MonoBehaviour
         {
             GameManager.i.LoseGame();
         }
-    }
-
-    void UpdateEmojiPosition()
-    {
-        if (activeEmoji.Count <= 0) { return; }
-        Vector3 emojiPosition;
-        if (!IsSeenByCamera(gameObject))
-        {
-            emojiPosition = positionIndicator.transform.position;
-        } else
-        {
-            emojiPosition = camera.WorldToScreenPoint(visuals.transform.position);
-        }
-        foreach (GameObject emoji in activeEmoji)
-        {
-            emoji.transform.position = emojiPosition;
-        }
-    }
-
-    public void GenerateEmoji(Sprite sprite)
-    {
-        GameObject newEmoji = Instantiate(emojiPrefab, GameManager.i.canvas.transform);
-        newEmoji.transform.Find("Visuals").GetComponent<Image>().sprite = sprite;
-        activeEmoji.Add(newEmoji);
     }
 
     public Vector3 GetMovement()

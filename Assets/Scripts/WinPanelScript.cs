@@ -22,7 +22,7 @@ public class WinPanelScript : MonoBehaviour
         paparazziCount.text = "0";
         interviewerCount.text = "0";
         moneyCount.text = "0";
-        totalCount.text = "0";
+        totalCount.text = (GameManager.i.paparazziKilled * 100 + GameManager.i.interviewerKilled * 50).ToString();
         yield return new WaitForSeconds(1f);
         StartCoroutine(IncrementScoreCount_C(moneyCount, GameManager.i.paparazziKilled * 100 + GameManager.i.interviewerKilled * 50, 0.005f, 50));
         yield return StartCoroutine(IncrementCount_C(paparazziCount, GameManager.i.paparazziKilled, 0.1f));
@@ -39,7 +39,6 @@ public class WinPanelScript : MonoBehaviour
         text.text = "0";
         for (int i = 0; i < amount; i++)
         {
-            Debug.Log("Increment");
             text.text = i.ToString();
             yield return new WaitForSeconds(incrementationSpeed);
         }
@@ -50,7 +49,7 @@ public class WinPanelScript : MonoBehaviour
     {
         text.text = "0";
         int billCount = 0;
-        for (int i = 0; i < amount; i+=Random.Range(3,6))
+        for (int i = 0; i < amount; i+=Random.Range(0,30))
         {
             text.text = i.ToString();
             if (billCount >= billFrequency)

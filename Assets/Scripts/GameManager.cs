@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public Canvas canvas;
     [HideInInspector] public StarBehaviour starBehaviour;
     [HideInInspector] public EnemySpawner enemySpawner;
+    [HideInInspector] public EmojiController emojiController;
     public GameObject gameOverPanel;
     public GameObject winPanel;
     public GameObject menuPanel;
@@ -20,7 +21,7 @@ public class GameManager : MonoBehaviour
     public int interviewerKilled;
     [HideInInspector] public FinishlineGenerator finishLineGenerator;
 
-    [Range(100,2000)]
+    [Range(10,2000)]
     public float carpetLength;
 
     [Range(0,10)]
@@ -32,6 +33,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         i = this;
+        emojiController = FindObjectOfType<EmojiController>();
         playerController = FindObjectOfType<PlayerController>();
         cameraController = FindObjectOfType<CameraController>();
         canvas = FindObjectOfType<Canvas>();

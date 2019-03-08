@@ -49,6 +49,7 @@ public class EnemyBehaviour : MonoBehaviour
         PlayerController playerFound = collision.gameObject.GetComponent<PlayerController>();
         if (playerFound != null && alive)
         {
+            GameManager.i.playerController.AddCombo();
             Kill();
             rb.AddForce(new Vector3(0, 5000, 0));
             rb.AddForce(new Vector3(playerFound.moveVector.x * 10000, 2000, playerFound.moveVector.z  *10000));
@@ -82,7 +83,6 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void Kill()
     {
-        GameManager.i.playerController.AddCombo();
         switch (enemyType)
         {
             case EnemyType.interviewer:

@@ -13,7 +13,6 @@ public class EnemyAnimator : MonoBehaviour
         animator = GetComponent<Animator>();
         visuals = transform.Find("Visuals").gameObject;
         linkedEnemy = visuals.GetComponent<EnemyBehaviour>();
-        visuals.SetActive(false);
         animator.speed = 0;
 
         StartCoroutine("Spawn_C");
