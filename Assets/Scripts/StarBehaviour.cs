@@ -98,7 +98,7 @@ public class StarBehaviour : MonoBehaviour
         {
             Vector3 pointPosition = actualStarPoint.transform.position;
             pointPosition.y = visuals.transform.position.y;
-            visuals.transform.position = Vector3.MoveTowards(visuals.transform.position, pointPosition, Time.deltaTime * moveSpeed * 0.4f);
+            visuals.transform.position = Vector3.MoveTowards(visuals.transform.position, pointPosition, Time.deltaTime* 4f);
             visuals.transform.LookAt(pointPosition);
         } else
         {
