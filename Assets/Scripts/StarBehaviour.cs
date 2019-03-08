@@ -87,8 +87,8 @@ public class StarBehaviour : MonoBehaviour
         if (talkingCD > 0) { return; }
         movement = new Vector3(0, 0, 0.01f * moveSpeed * Time.deltaTime);
         transform.position += movement;
-        visuals.transform.position = Vector3.Lerp(visuals.transform.position, transform.position, Time.deltaTime *4f);
-        visuals.transform.rotation = Quaternion.Lerp(visuals.transform.rotation, Quaternion.identity, Time.deltaTime);
+        visuals.transform.position = Vector3.Lerp(visuals.transform.position, transform.position, Time.deltaTime);
+        visuals.transform.rotation = Quaternion.Lerp(visuals.transform.rotation, Quaternion.identity, Time.deltaTime * 1.5f);
     }
 
     void PointMovement()
@@ -98,7 +98,7 @@ public class StarBehaviour : MonoBehaviour
         {
             Vector3 pointPosition = actualStarPoint.transform.position;
             pointPosition.y = visuals.transform.position.y;
-            visuals.transform.position = Vector3.MoveTowards(visuals.transform.position, pointPosition, Time.deltaTime* 4f);
+            visuals.transform.position = Vector3.MoveTowards(visuals.transform.position, pointPosition, Time.deltaTime * 1.5f);
             visuals.transform.LookAt(pointPosition);
         } else
         {

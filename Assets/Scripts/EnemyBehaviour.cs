@@ -34,7 +34,12 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (target != null && alive)
         {
-            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime * moveSpeed);
+            float modifiedMovespeed = moveSpeed;
+            if (transform.position.z < target.transform.position.z)
+            {
+                modifiedMovespeed = moveSpeed * 0.8f;
+            }
+            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime * modifiedMovespeed);
             transform.LookAt(target.transform.position);
             if (transform.position.y < -1000)
             {
